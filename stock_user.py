@@ -3,8 +3,8 @@ from base64 import b64encode
 import json
 
 class User:
-    def __init__(self, mail, password) -> None:
-        self.mail = mail                #ustawienie maila dla tej instacji
+    def __init__(self, login, password) -> None:
+        self.mail = login               #ustawienie maila dla tej instacji
         self.password = password        #ustawienie hasla
         self.header = {
             "Authorization":"Basic {}".format(
@@ -45,24 +45,25 @@ class User:
         return sum
 
         
-if __name__ == "__main__":
+if __name__ == "__main__":      #testowanie
     mail = input("wprowadz mail ")
     password = input("wprowadz haslo ")
     user = User(mail,password)
-    print(user.userinfo())
-    print(f"\n"*3)
-    print(user.history())
-    print(f"\n"*3)
-    print(user.userfunds())
-    print(f"\n"*3)
-    print(user.transactions())
-    print(f"\n"*3)
-    print(user.transactions_amount())
-    print(f"\n"*3)
-    print(user.grade())
-    print(f"\n"*3)
-    print(user.shares())
-    print(f"\n"*3)
-    print(user.shares_amount())
+    for i in range(10):
+        print(user.userinfo())
+        print(f"\n"*3)
+        print(user.history())
+        print(f"\n"*3)
+        print(user.userfunds())
+        print(f"\n"*3)
+        print(user.transactions())
+        print(f"\n"*3)
+        print(user.transactions_amount())
+        print(f"\n"*3)
+        print(user.grade())
+        print(f"\n"*3)
+        print(user.shares())
+        print(f"\n"*3)
+        print(user.shares_amount())
     
 

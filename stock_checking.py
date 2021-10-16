@@ -1,12 +1,11 @@
 import http.client
 import json
 class stockData:
-    def __init__(self) -> None:
-        self.conn = http.client.HTTPSConnection("zsutstockserver.azurewebsites.net")        #nawiazanie polaczenia(jednorazowo przy wywolaniu instancji)
-    def check_price(self, exchange, shares, buySell):                                        #sprawdzanie cen akcji, wymagana nazwa gieldy, nazwa akcji
-        self.conn.request("GET", url=f"/api/shareprice/{exchange}?share={shares}")           #request
-        data = self.conn.getresponse().read()
-        self.conn.close()           
+    def check_price(self, exchange, shares, buySell):  
+        conn = http.client.HTTPSConnection("zsutstockserver.azurewebsites.net")                                       #sprawdzanie cen akcji, wymagana nazwa gieldy, nazwa akcji
+        conn.request("GET", url=f"/api/shareprice/{exchange}?share={shares}")           #request
+        data = conn.getresponse().read()
+        conn.close()           
         data = data.decode("utf-8") 
         data = json.loads(data)         #zamiana na liste tablic
         buy = data[0]                   #pierwszy dict zawiera ceny buy
@@ -15,17 +14,19 @@ class stockData:
             return buy["price"], buy["amount"]      #zwraca tuple cena, ilosc
         if buySell == "sell":
             return sell["price"], sell["amount"]    #zwraca tuple cena, ilosc
-    def check_exchanges(self):                                                               #sprawdzanie dostepnych gield
-        self.conn.request("GET", url=f"/api/stockexchanges")
-        data = self.conn.getresponse().read()
-        self.conn.close()
+    def check_exchanges(self):
+        conn = http.client.HTTPSConnection("zsutstockserver.azurewebsites.net")                                                               #sprawdzanie dostepnych gield
+        conn.request("GET", url=f"/api/stockexchanges")
+        data = conn.getresponse().read()
+        conn.close()
         data = data.decode("utf-8")
         data = json.loads(data)
         return data
-    def check_shares(self, exchange):                                                          #sprawdzanie dostepnych akcji, wymagana nazwa gieldy
-        self.conn.request("GET", url=f"/api/shareslist/{exchange}")
-        data = self.conn.getresponse().read()
-        self.conn.close()
+    def check_shares(self, exchange): 
+        conn = http.client.HTTPSConnection("zsutstockserver.azurewebsites.net")                                                         #sprawdzanie dostepnych akcji, wymagana nazwa gieldy
+        conn.request("GET", url=f"/api/shareslist/{exchange}")
+        data = conn.getresponse().read()
+        conn.close()
         data = data.decode("utf-8")
         data = json.loads(data)
         return data
@@ -33,6 +34,7 @@ class stockData:
 
 if __name__ == "__main__":  #test
     info = stockData()
-    print(info.check_price("Warszawa", "GRODNO", "sell"))
-    print(info.check_exchanges())
-    print(info.check_shares("Warszawa"))
+    for i in range(5):
+        print(info.check_price("Warszawa", "GRODNO", "sell"))
+        print(info.check_exchanges())
+        print(info.check_shares("Warszawa"))
