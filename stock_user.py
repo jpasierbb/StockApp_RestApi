@@ -16,6 +16,6 @@ class User:
         data = self.conn.getresponse().read()
         data = json.loads(data)
         print(data)
-
-andrzej = User("01159465@pw.edu.pl","1Lab1")
-andrzej.data()
+if __name__ == "__main__":
+    andrzej = User("01159465@pw.edu.pl","1Lab1")
+    andrzej.data()
