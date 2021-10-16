@@ -8,28 +8,43 @@ class User:
         self.password = password        #ustawienie hasla
         self.header = {
             "Authorization":"Basic {}".format(
-            b64encode(bytes(f"{self.mail}:{self.password}", "utf-8")).decode("ascii"))  #
+            b64encode(bytes(f"{self.mail}:{self.password}", "utf-8")).decode("ascii"))  #base64 dziala tylko w zapisie bitowym, potem trzeba decodowac na ascii
             }
         self.conn = http.client.HTTPSConnection("zsutstockserver.azurewebsites.net")     #polaczenie z autoryzacja przez url
-    def userinfo(self):
+    def userinfo(self):     #zwraca dane o uzytkowniku
         self.conn.request("GET", "/api/client", headers=self.header)
         data = self.conn.getresponse().read()
         self.conn.close()
         data = json.loads(data)
-        print(data)
-    def userfunds(self):
-        self.conn.request("GET", "/api/client", headers=self.header)
-        data = self.conn.getresponse().read()
-        self.conn.close()
-        data = json.loads(data)
-        funds = data["funds"]
-        return funds
-    def history(self):
+        return data
+    def userfunds(self):    #zwraca liczbe funduszy
+        data = self.userinfo()
+        data = data["funds"]
+        return data
+    def history(self):  #zwraca json historii
         self.conn.request("GET", "/api/history", headers=self.header)
         data = self.conn.getresponse().read()
         self.conn.close()
         data = json.loads(data)
         return data
+    def transactions(self): #zwraca liste transakcji
+        data = self.history()
+        data = data["transactions"]
+        return data
+    def transactions_amount(self):  #zwraca liczbe transakcji
+        return len(self.transactions())
+    def grade(self):    #zwraca ocene
+        return (self.history())["mark"]
+    def shares(self):   #zwraca liste akcji; nazwa, gielda, ilosc
+        return (self.userinfo())["shares"] #zwraca dict {akcja: liczba}
+    def shares_amount(self):    #zwraca liczbe akcji
+        data = (self.userinfo())["shares"]
+        sum = 0
+        for key, value in data.items():
+            sum = sum + value
+        return sum
+
+        
 if __name__ == "__main__":
     mail = input("wprowadz mail ")
     password = input("wprowadz haslo ")
@@ -39,3 +54,15 @@ if __name__ == "__main__":
     print(user.history())
     print(f"\n"*3)
     print(user.userfunds())
+    print(f"\n"*3)
+    print(user.transactions())
+    print(f"\n"*3)
+    print(user.transactions_amount())
+    print(f"\n"*3)
+    print(user.grade())
+    print(f"\n"*3)
+    print(user.shares())
+    print(f"\n"*3)
+    print(user.shares_amount())
+    
+
