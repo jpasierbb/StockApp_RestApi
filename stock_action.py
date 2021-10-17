@@ -66,3 +66,6 @@ if __name__ == "__main__":
     action.stock_action(transakcja[0],transakcja[1],transakcja[2],int(transakcja[3]))
 
     
+#Znane Errory:
+# sprzedawanie nieposiadanych akcji
+# blad w zleceniu sprzedazy/kupna (np literowka)
