@@ -3,15 +3,35 @@ from stock_action import stockDo
 from stock_user import User
 import random
 
-def REST_3_3(account):
-    acc = User(login=account[0], password=account[1])
-    print(acc.shares())
+def REST_3_3(konto):
+    acc = konto
+    #print(type(acc.shares()))
 
-    exchanges = info.check_exchanges()
-    exchange = exchanges[random.randint(0, len(exchanges) - 1)]  # losowa gielda z przedzialu 0 - liczba gield
-    shares = info.check_shares(exchange)
-    share = shares[random.randint(0, len(shares) - 1)]
-    #action.stock_action(exchange, share, "buy", 1)
+    for i in range(100):
+        exchanges = info.check_exchanges()
+        exchange = exchanges[random.randint(0, len(exchanges) - 1)]  # losowa gielda z przedzialu 0 - liczba gield
+        shares = info.check_shares(exchange)
+        share = shares[random.randint(0, len(shares) - 1)]
+        action.stock_action(exchange, share, "buy", 1)
+        amount = 0
+        for key, value in acc.shares().items():
+            amount += 1
+        if amount == 40:
+            print(amount)
+            break
+
+    for key, value in acc.shares().items():
+        share = key
+        exchange = info.where(share)
+        if value < len(key):
+            for i in range(20):
+                if value < len(key):
+                    action.stock_action(exchange, share, "buy", 1)
+        if value > len(key):
+            for i in range(20):
+                if value > len(key):
+                    action.stock_action(exchange, share, "sell", 1)
+
 
 
 account = 0
@@ -29,7 +49,7 @@ if choice == 2:
     account = User(login=Kuba[0], password=Kuba[1])
     #print(account)
 
-print(account)
+#print(account)
 info = stockData()
 action = stockDo(user=account)
 REST_3_3(account)
