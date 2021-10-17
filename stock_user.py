@@ -37,7 +37,10 @@ class User:
         return (self.history())["mark"]
     def shares(self):   #zwraca liste akcji; nazwa, gielda, ilosc
         return (self.userinfo())["shares"] #zwraca dict {akcja: liczba}
-    def shares_amount(self):    #zwraca liczbe akcji
+    def share_amount(self, share):
+        pass
+        
+    def allshares_amount(self):    #zwraca liczbe akcji
         data = (self.userinfo())["shares"]
         sum = 0
         for key, value in data.items():
@@ -64,6 +67,6 @@ if __name__ == "__main__":      #testowanie
         print(f"\n"*3)
         print(user.shares())
         print(f"\n"*3)
-        print(user.shares_amount())
+        print(user.allshares_amount())
     
 

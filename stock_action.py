@@ -3,36 +3,39 @@ import json
 from base64 import b64encode
 from stock_checking import stockData
 import math
+from stock_user import User
 
 class stockDo:
 
-    def __init__(self, login, password) -> None:
-        self.login = str(login)
-        self.password = str(password)
+    def __init__(self, user) -> None:   #przy tworzeniu obiektu trzeba przekazac obiekt klasy user dla ktorego beda transakcje
+        self.user = user
         self.header = {
             "Authorization": "Basic {}".format(
-                b64encode(bytes(f"{self.login}:{self.password}", "utf-8")).decode("ascii")),
+                b64encode(bytes(f"{user.mail}:{user.password}", "utf-8")).decode("ascii")),
             "Content-Type": "application/json"
         }
     def stock_action(self, exchange, share, buySell, amount):
         conn = http.client.HTTPSConnection("zsutstockserver.azurewebsites.net")
-        # Klasa zczytuje ceny i ilosc akcji sprzedazy/kupowania
-        # Cena danej spolki
-        # Limit czyli ilosc dostepnych akcji, przyda sie zeby program nie chcial kupic wiecej niz jest
         info = stockData()
         price = 0
-        if buySell == "buy":    #dla kupienia trzeba sprawdzic cene sprzedazy i na odwrot
+        if buySell == "buy":                                             #dla kupienia trzeba sprawdzic cene sprzedazy i na odwrot
             price = (info.check_price(exchange, share, "sell"))[0]
-            price = math.ceil(price)    #zaokraglenie do calkowitych od gory
+            price = math.ceil(price)                                    #zaokraglenie do calkowitych od gory
             limit = (info.check_price(exchange, share, "sell"))[1]
-            if limit < amount:      #jezeli wiecej masz kupic niz mozna ustawia sie na max dostepnych
+            if limit < amount:                                          #jezeli wiecej masz kupic niz mozna ustawia sie na max dostepnych
                 amount = int(limit)
+            if math.floor(self.user.userfunds()) < (amount * price):
+                amount = math.floor(self.user.userfunds()/price)
+            if amount == "0":
+                return "Nie mozna kupic akcji"
         elif buySell == "sell":
             price = (info.check_price(exchange, share, "buy"))[0]
-            price = math.floor(price)   #zaokraglenie do calkowitych od dolu
-            limit = (info.check_price(exchange, share, "buy"))[1]
+            price = math.floor(price)                                       #zaokraglenie do calkowitych od dolu
+            limit = (self.user.shares())[share]
             if limit < amount:
                 amount = int(limit)
+            if amount == 0:
+                return print("Brak akcji do sprzedania")
         body = json.dumps({
                 "stockExchange":f'{exchange}',
                 "share":f'{share}',
@@ -56,11 +59,10 @@ class stockDo:
 
 
 if __name__ == "__main__":
-    mail = input("podaj mail ")
-    password = input("podaj haslo ")
-    gielda = input("Podaj w tej kolejnosci po spacji: gielda nazwa_akcji buy_or_sell ilosc: ")
-    gielda = gielda.split()
-    action = stockDo(mail, password)
-    for i in range(5):
-        action.stock_action(gielda[0],gielda[1],gielda[2],int(gielda[3]))
+    user = User("01159465@pw.edu.pl", "1Lab1")
+    transakcja = input("rozdzielone spacjami: gielda akcje buy/sell ile: ")
+    transakcja = transakcja.split()
+    action = stockDo(user=user)
+    action.stock_action(transakcja[0],transakcja[1],transakcja[2],int(transakcja[3]))
+
     

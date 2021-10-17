@@ -35,6 +35,6 @@ class stockData:
 if __name__ == "__main__":  #test
     info = stockData()
     for i in range(5):
-        print(info.check_price("Warszawa", "GRODNO", "sell"))
+        print(info.check_price("Warszawa", "KRUK", "sell"))
         print(info.check_exchanges())
         print(info.check_shares("Warszawa"))
