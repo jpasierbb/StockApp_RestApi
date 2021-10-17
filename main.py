@@ -3,30 +3,34 @@ from stock_action import stockDo
 from stock_user import User
 import random
 
-def random_50():
+def REST_3_1():
     exchanges = info.check_exchanges()
-    exchange = exchanges[random.randint(0,len(exchanges)-1)]  #losowa gielda z przedzialu 0 - liczba gield
+    exchange = exchanges[random.randint(0, len(exchanges) - 1)]  # losowa gielda z przedzialu 0 - liczba gield
     shares = info.check_shares(exchange)
-    share = shares[random.randint(0,len(shares)-1)]
-    for i in range(50):
-        action.stock_action(exchange,share,"buy",1)
+    share = shares[random.randint(0, len(shares) - 1)]
+    action.stock_action(exchange, share, "buy", 1)
 
 
+account = 0
+print("Wybierz uzytkownika: ")
+print("1 - Andrzej\n2 - Kuba\n")
+choice = int(input("Wybor: "))
 
+Andrzej = ("01159465@pw.edu.pl", "1Lab1")
+Kuba = ("01161816@pw.edu.pl", "kubapasierb1")
 
-mail = input("podaj mail podany przy rejestracji: ")
-password = input("podaj haslo: ")
-pick = input("\n \n \
-    Wybierz co chcesz zrobic: \
-    \n 1. Kup 50 losowych akcji \
-    \n 2. Kup tyle akcji co nazwa dla 40 spolek \
-    \n 3. Kup wszystkie spolki tak zeby nie miec tylu samo \
-    \n Twoj wybor: ")
+if choice == 1:
+    account = User(login=Andrzej[0], password=Andrzej[1])
+    #print(account)
+if choice == 2:
+    account = User(login=Kuba[0], password=Kuba[1])
+    #print(account)
 
-user = User(login=mail, password=password)
-action = stockDo(login=mail, password=password)
+#print(account)
 info = stockData()
-random_50()
+action = stockDo(user=account)
+REST_3_1()
+
 
 
 
