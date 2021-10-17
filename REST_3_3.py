@@ -19,7 +19,9 @@ def REST_3_3(acc):
                 shares = info.check_shares(exchange)
                 share = shares[random.randint(0, len(shares) - 1)]
                 action.stock_action(exchange, share, "buy", 1)
-                amount += amount
+                amount = 0
+                for key, value in acc.shares().items():
+                    amount += 1
                 if amount == 40:
                     break
         elif amount > 40:
@@ -34,8 +36,6 @@ def REST_3_3(acc):
                     break
                 exchange = info.where(share)
                 action.stock_action(exchange, share, "sell", 1)
-
-
 
 
     for key, value in acc.shares().items():
@@ -60,6 +60,7 @@ def REST_3_3(acc):
                     print(share, amount)
                 if amount == len(share):
                     break
+    print("\nDone.")
 
 
 
