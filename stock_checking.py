@@ -30,6 +30,13 @@ class stockData:
         data = data.decode("utf-8")
         data = json.loads(data)
         return data
+    def where(self, share):
+        for exchange in self.check_exchanges():
+            for share_check in self.check_shares(exchange):
+                if share == share_check:
+                    return exchange
+                else:
+                    return raise Exception("Nie znaleziono gieldy")
 
 
 if __name__ == "__main__":  #test
