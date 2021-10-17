@@ -3,17 +3,16 @@ from stock_action import stockDo
 from stock_user import User
 import random
 
-def REST_3_3():
+def REST_3_2():
+    for i in range(50):
+        exchanges = info.check_exchanges()
+        exchange = exchanges[random.randint(0, len(exchanges) - 1)]  # losowa gielda z przedzialu 0 - liczba gield
+        shares = info.check_shares(exchange)
+        share = shares[random.randint(0, len(shares) - 1)]
+        action.stock_action(exchange, share, "buy", 1)
 
 
-    exchanges = info.check_exchanges()
-    exchange = exchanges[random.randint(0, len(exchanges) - 1)]  # losowa gielda z przedzialu 0 - liczba gield
-    shares = info.check_shares(exchange)
-    share = shares[random.randint(0, len(shares) - 1)]
-    #action.stock_action(exchange, share, "buy", 1)
-
-
-account = (0, 1)
+account = 0
 print("Wybierz uzytkownika: ")
 print("1 - Andrzej\n2 - Kuba\n")
 choice = int(input("Wybor: "))
@@ -31,9 +30,7 @@ if choice == 2:
 #print(account)
 info = stockData()
 action = stockDo(user=account)
-acc = User(account[0], account[1])
-print(acc.shares())
-REST_3_3()
+REST_3_2()
 
 
 
