@@ -35,8 +35,7 @@ class stockData:
             for share_check in self.check_shares(exchange):
                 if share == share_check:
                     return exchange
-                else:
-                    return raise Exception("Nie znaleziono gieldy")
+        raise Exception("Nie znaleziono gieldy z ta spolka")        
 
 
 if __name__ == "__main__":  #test
