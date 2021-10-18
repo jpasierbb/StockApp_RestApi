@@ -11,7 +11,7 @@ def REST_3_1():
     action.stock_action(exchange, share, "buy", 1)
 
 
-account = 0
+
 print("Wybierz uzytkownika: ")
 print("1 - Andrzej\n2 - Kuba\n")
 choice = int(input("Wybor: "))

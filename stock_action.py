@@ -20,17 +20,16 @@ class stockDo:
         price = 0
         if buySell == "buy":                                             #dla kupienia trzeba sprawdzic cene sprzedazy i na odwrot
             price = (info.check_price(exchange, share, "sell"))[0]
-            price = math.ceil(price)                                    #zaokraglenie do calkowitych od gory
+            price = price + 0.05                                   #do gory
             limit = (info.check_price(exchange, share, "sell"))[1]
             if limit < amount:                                          #jezeli wiecej masz kupic niz mozna ustawia sie na max dostepnych
                 amount = int(limit)
-            if math.floor(self.user.userfunds()) < (amount * price):
-                amount = math.floor(self.user.userfunds()/price)
+            if self.user.userfunds() < (amount * price):
+                amount = self.user.userfunds()/price
             if amount == "0":
                 return "Nie mozna kupic akcji"
         elif buySell == "sell":
-            price = (info.check_price(exchange, share, "buy"))[0]
-            price = math.floor(price)                                       #zaokraglenie do calkowitych od dolu
+            price = (info.check_price(exchange, share, "buy"))[0] - 0.05                                       #zaokraglenie do calkowitych od dolu
             limit = (self.user.shares())[share]
             if limit < amount:
                 amount = int(limit)
