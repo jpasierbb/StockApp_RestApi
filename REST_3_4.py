@@ -36,7 +36,7 @@ def REST_3_4(acc):
         i += 1
         if i == len(shares):
             break
-        if acc.shares()[shares[i]] == acc.shares()[shares[i-1]] + 1 or shares[i] == "WORKSERV" or shares[i] == "LPP":
+        if acc.shares()[shares[i]] == acc.shares()[shares[i-1]] + 1:
             continue
         if acc.shares()[shares[i]] > acc.shares()[shares[i-1]] + 1:
             while True:
@@ -53,7 +53,7 @@ def REST_3_4(acc):
     print("\nDone.")
 
 
-account = 0
+
 print("Wybierz uzytkownika: ")
 print("1 - Andrzej\n2 - Kuba\n")
 choice = int(input("Wybor: "))
@@ -72,5 +72,5 @@ if choice == 2:
 info = stockData()
 action = stockDo(user=account)
 REST_3_4(account)
-#print(info.where("ALIOR"))
+#print(info.where("WORKSERV"))
 
