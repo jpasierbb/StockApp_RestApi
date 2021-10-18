@@ -52,17 +52,26 @@ class stockDo:
 
         #print(response)
         #print(response.status)
+    def sell_all(self):
+        info = stockData()
+        stock_dick = self.user.shares()
+        for key, value in stock_dick.items():
+            exchange = info.where(key)
+            self.stock_action(exchange, key, "sell", int(value))
+
 
 
 
 
 
 if __name__ == "__main__":
-    user = User("01159465@pw.edu.pl", "1Lab1")
-    transakcja = input("rozdzielone spacjami: gielda akcje buy/sell ile: ")
-    transakcja = transakcja.split()
+    user = User("01161816@pw.edu.pl", "kubapasierb1")
     action = stockDo(user=user)
-    action.stock_action(transakcja[0],transakcja[1],transakcja[2],int(transakcja[3]))
+    action.sell_all()
+    #transakcja = input("rozdzielone spacjami: gielda akcje buy/sell ile: ")
+    #transakcja = transakcja.split()
+    #action = stockDo(user=user)
+    #action.stock_action(transakcja[0],transakcja[1],transakcja[2],int(transakcja[3]))
 
     
 #Znane Errory:
