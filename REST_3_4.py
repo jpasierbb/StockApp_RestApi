@@ -4,52 +4,15 @@ from stock_user import User
 import random
 
 def REST_3_4(acc):
-    #print(type(acc.shares()))
-    exchanges = info.check_exchanges()
-    for exchange in exchanges:
-        shares = info.check_shares(exchange)
-        print(f"\nGielda: {exchange}")
-        print(f"Spolki: \n{shares}\n")
-        gieldy = [k for k, v in acc.shares().items()]
-        if acc.shares()[gieldy[0]] == 1:
-            break
-        for share in shares:
-            action.stock_action(exchange, share, "buy", 1)
-            print(f"Kupiono udzial: {share}")
-    print("\nAll shares - OK\n")
-
-    shares = [k for k, v in acc.shares().items()]
-    amounts = [v for k, v in acc.shares().items()]
-    print(shares, "\n", amounts)
-    if acc.shares()[shares[0]] > 1:
-        while True:
-            if acc.shares()[shares[0]] == 1:
-                break
-            action.stock_action(info.where(shares[0]), shares[0], "sell", 1)
-            print(f"Sprzedano akcje {shares[0]}")
-    amounts = [v for k, v in acc.shares().items()]
-    print(shares[0])
-    print(amounts[0])
-
-    i = 0
-    while True:
-        i += 1
-        if i == len(shares):
-            break
-        if acc.shares()[shares[i]] == acc.shares()[shares[i-1]] + 1:
-            continue
-        if acc.shares()[shares[i]] > acc.shares()[shares[i-1]] + 1:
-            while True:
-                if acc.shares()[shares[i]] == acc.shares()[shares[i-1]] + 1:
-                    break
-                action.stock_action(info.where(shares[i]), shares[i], "sell", 1)
-                print(f"Sprzedano akcje {shares[i]}")
-        elif acc.shares()[shares[i]] < acc.shares()[shares[i-1]] + 1:
-            while True:
-                if acc.shares()[shares[i]] == acc.shares()[shares[i-1]] + 1:
-                    break
-                action.stock_action(info.where(shares[i]), shares[i], "buy", int(acc.shares()[shares[i]] - acc.shares()[shares[i-1]]))
-                print(f"Kupiono akcje {shares[i]}")
+    action.sell_all()
+    list = info.sort()
+    print(list)
+    for i in range(len(list)):
+        print("----"*4)
+        print(info.where(list[i][0]))
+        print(list[i][0])
+        action.stock_action(info.where(list[i][0]), list[i][0], "buy", i+1)
+    print("***** ***")
     print("\nDone.")
 
 
@@ -72,5 +35,4 @@ if choice == 2:
 info = stockData()
 action = stockDo(user=account)
 REST_3_4(account)
-#print(info.where("WORKSERV"))
-
+#action.sell_all()
