@@ -35,7 +35,23 @@ class stockData:
             for share_check in self.check_shares(exchange):
                 if share == share_check:
                     return exchange
-        raise Exception("Nie znaleziono gieldy z ta spolka")        
+        raise Exception("Nie znaleziono gieldy z ta spolka")
+    def sort(self):
+        exchanges = self.check_exchanges()
+        sh_amount = []
+        # print(exchanges)
+        for i in range(0, len(exchanges)):
+            # print("----"*4)
+            exchange = exchanges[i]
+            # print(exchange)
+            share = self.check_shares(exchange)
+            for k in range(0, len(self.check_shares(exchange))):
+                # print(share[k])
+                amounts = self.check_price(exchange, share[k], "sell")
+                sh_amount.append((share[k], amounts[1]))
+        # print(sh_amount)
+        sorted_sh_amount = sorted(sh_amount, key = lambda amount: amount[1])
+        return sorted_sh_amount
 
 
 if __name__ == "__main__":  #test
