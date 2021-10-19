@@ -26,7 +26,7 @@ class stockDo:
                 amount = int(limit)
             if self.user.userfunds() < (amount * price):
                 amount = self.user.userfunds()/price
-            if amount == "0":
+            if amount == 0:
                 return "Nie mozna kupic akcji"
         elif buySell == "sell":
             price = (info.check_price(exchange, share, "buy"))[0] - 0.05                                       #zaokraglenie do calkowitych od dolu

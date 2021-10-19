@@ -4,16 +4,22 @@ from stock_user import User
 import random
 
 def REST_3_4(acc):
-    action.sell_all()
-    list = info.sort()
-    print(list)
-    for i in range(len(list)):
-        print("----"*4)
-        print(info.where(list[i][0]))
-        print(list[i][0])
-        action.stock_action(info.where(list[i][0]), list[i][0], "buy", i+1)
-    print("***** ***")
-    print("\nDone.")
+    info = stockData()
+    unique_shares = []      #lista unikalnych spolek (bez duplikatow)
+    for exchange in info.check_exchanges():
+        for share in info.check_shares(exchange):
+            if share not in unique_shares:
+                unique_shares.append(share)
+    for i in range(len(unique_shares)-1,0,-1):
+        current_share = unique_shares[i]
+        where = info.where(current_share)
+        while True:
+            action.stock_action(where, current_share, "buy", 1)
+            amount = acc.shares()[current_share]
+            if amount == i:
+                break
+
+
 
 
 
@@ -32,7 +38,6 @@ if choice == 2:
     #print(account)
 
 #print(account)
-info = stockData()
 action = stockDo(user=account)
 REST_3_4(account)
 #action.sell_all()
