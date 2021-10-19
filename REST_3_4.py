@@ -10,13 +10,13 @@ def REST_3_4(acc):
         for share in info.check_shares(exchange):
             if share not in unique_shares:
                 unique_shares.append(share)
-    for i in range(len(unique_shares)-1,0,-1):
+    for i in range(len(unique_shares)-1,-1,-1):
         current_share = unique_shares[i]
         where = info.where(current_share)
         while True:
             action.stock_action(where, current_share, "buy", 1)
             amount = acc.shares()[current_share]
-            if amount == i:
+            if amount == i+1:
                 break
 
 
