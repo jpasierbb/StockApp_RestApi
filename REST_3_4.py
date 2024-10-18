@@ -27,8 +27,8 @@ print("Wybierz uzytkownika: ")
 print("1 - Andrzej\n2 - Kuba\n")
 choice = int(input("Wybor: "))
 
-Andrzej = ("01159465@pw.edu.pl", "1Lab1")
-Kuba = ("01161816@pw.edu.pl", "kubapasierb1")
+Andrzej = ("example_email_one@example.com", "passwordOne")
+Kuba = ("example_email_two@example.com", "passwordTwo")
 
 if choice == 1:
     account = User(login=Andrzej[0], password=Andrzej[1])
